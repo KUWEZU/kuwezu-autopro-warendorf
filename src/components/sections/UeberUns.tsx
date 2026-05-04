@@ -1,0 +1,103 @@
+import Image from "next/image";
+import { Award, Users, Wrench, ThumbsUp } from "lucide-react";
+import { client } from "@/data/client";
+
+const STAT_ICONS = [Award, ThumbsUp, Users, Wrench];
+
+export function UeberUns() {
+  const { bild, ueberschrift, text1, text2, tags, stats } = client.ueberUns;
+
+  return (
+    <section id="ueber-uns" className="py-28 bg-brand-bg" aria-labelledby="ueber-uns-heading">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+        <div className="grid lg:grid-cols-2 gap-16 items-center">
+
+          {/* Textseite */}
+          <div>
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-primary/10 border border-brand-primary/25 mb-6">
+              <span className="text-brand-primary text-sm font-semibold uppercase tracking-wider">Über uns</span>
+            </div>
+
+            <h2 id="ueber-uns-heading" className="text-4xl sm:text-5xl font-black text-brand-text leading-tight mb-6">
+              {ueberschrift.split("—").map((part, i) =>
+                i === 0
+                  ? <span key={i}>{part}—<br /></span>
+                  : <span key={i} className="text-brand-primary">{part}</span>
+              )}
+            </h2>
+
+            <p className="text-brand-text/70 text-lg leading-relaxed mb-4">{text1}</p>
+            <p className="text-brand-muted text-lg leading-relaxed mb-10">{text2}</p>
+
+            <div className="flex flex-wrap gap-3 mb-12">
+              {tags.map((tag) => (
+                <span key={tag}
+                  className="inline-flex items-center px-4 py-1.5 text-sm font-medium text-brand-primary
+                             bg-brand-primary/10 border border-brand-primary/20 rounded-full">
+                  {tag}
+                </span>
+              ))}
+            </div>
+
+            {/* Stats — nur auf Mobile */}
+            <div className="grid grid-cols-2 gap-4 lg:hidden">
+              {stats.map(({ value, label }, i) => {
+                const Icon = STAT_ICONS[i] ?? Award;
+                return (
+                  <div key={label} className="bg-brand-surface border border-brand-border rounded-2xl p-5"
+                    style={{ boxShadow: "var(--card-shadow)" }}>
+                    <Icon className="w-5 h-5 text-brand-primary mb-3" aria-hidden="true" />
+                    <p className="text-2xl font-black text-brand-text">{value}</p>
+                    <p className="text-sm text-brand-muted mt-1 leading-relaxed">{label}</p>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Bild + Stats Desktop */}
+          <div className="flex flex-col gap-5">
+            {bild ? (
+              <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden border border-brand-border"
+                style={{ boxShadow: "var(--card-shadow), 0 20px 60px rgba(0,0,0,0.15)" }}>
+                <Image src={bild} alt="Unser Betrieb" fill
+                  sizes="(max-width: 1024px) 100vw, 50vw" className="object-cover object-center"
+                  unoptimized={bild.endsWith(".svg")} />
+                <div className="absolute inset-0 rounded-2xl ring-1 ring-brand-primary/15 pointer-events-none" />
+              </div>
+            ) : (
+              <div className="w-full aspect-[4/3] rounded-2xl bg-brand-surface border border-brand-border flex items-center justify-center"
+                style={{ boxShadow: "var(--card-shadow)" }}>
+                <div className="text-center text-brand-text/20">
+                  <Award className="w-12 h-12 mx-auto mb-3" aria-hidden="true" />
+                  <p className="text-base">Kein Bild konfiguriert</p>
+                </div>
+              </div>
+            )}
+
+            {/* Stats Desktop */}
+            <div className="hidden lg:grid grid-cols-2 gap-4">
+              {stats.map(({ value, label }, i) => {
+                const Icon = STAT_ICONS[i] ?? Award;
+                return (
+                  <div key={label}
+                    className="bg-brand-surface border border-brand-border rounded-2xl p-6
+                               hover:border-brand-primary/30 transition-all group"
+                    style={{ boxShadow: "var(--card-shadow)" }}>
+                    <div className="w-10 h-10 rounded-xl bg-brand-primary/10 flex items-center justify-center mb-4
+                                    group-hover:bg-brand-primary/20 transition-colors">
+                      <Icon className="w-5 h-5 text-brand-primary" aria-hidden="true" />
+                    </div>
+                    <p className="text-3xl font-black text-brand-text">{value}</p>
+                    <p className="text-sm text-brand-muted mt-1 leading-relaxed">{label}</p>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  );
+}

@@ -1,0 +1,66 @@
+@import "tailwindcss";
+
+/* ── Brand Design Tokens ────────────────────────────────────────────────────── */
+@theme inline {
+  --color-brand-bg:            #f8f9fa;
+  --color-brand-surface:       #ffffff;
+  --color-brand-surface2:      #f0f0f0;
+  --color-brand-secondary:     #f0f0f0;
+  --color-brand-text:          #1a1a1a;
+  --color-brand-muted:         #555555;
+  --color-brand-border:        rgba(0,0,0,0.10);
+  --color-brand-primary:       #024089;
+  --color-brand-primary-hover: #023879;
+  --font-sans: var(--font-geist-sans);
+}
+
+/* ── CSS Custom Properties (for use in inline styles / regular CSS) ──────── */
+:root {
+  --background:      #f8f9fa;
+  --foreground:      #1a1a1a;
+  --color-primary:   #024089;
+  --nav-shadow:      0 1px 8px rgba(0,0,0,0.10), 0 1px 3px rgba(0,0,0,0.06);
+  --card-shadow:     0 2px 12px rgba(0,0,0,0.08);
+}
+
+/* ── Base Typography & Layout ─────────────────────────────────────────────── */
+html, body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-size: 1.125rem;   /* 18px minimum body text */
+  line-height: 1.6;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+[id] { scroll-margin-top: 80px; }
+
+/* ── Focus ring — WCAG 2.4.7 ─────────────────────────────────────────────── */
+:focus-visible {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ── Skip link — WCAG 2.4.1 ──────────────────────────────────────────────── */
+.skip-link {
+  position: absolute; top: -100%; left: 1rem; z-index: 9999;
+  background: var(--color-primary); color: #ffffff; font-weight: 700;
+  padding: 0.75rem 1.25rem; border-radius: 0 0 8px 8px; transition: top 0.2s;
+  min-height: 44px; display: inline-flex; align-items: center;
+  text-decoration: none; font-size: 1rem;
+}
+.skip-link:focus { top: 0; }
+
+/* ── Accessibility Modes ──────────────────────────────────────────────────── */
+html.a11y-contrast { filter: invert(1) hue-rotate(180deg); }
+html.a11y-contrast img, html.a11y-contrast video { filter: invert(1) hue-rotate(180deg); }
+html.a11y-no-motion *, html.a11y-no-motion *::before, html.a11y-no-motion *::after {
+  animation-duration: 0.01ms !important; animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important; scroll-behavior: auto !important;
+}
+html.a11y-underline-links a { text-decoration: underline !important; text-underline-offset: 3px; }
+html.a11y-readable-font, html.a11y-readable-font * {
+  font-family: Arial, Helvetica, sans-serif !important; letter-spacing: 0.01em;
+}
